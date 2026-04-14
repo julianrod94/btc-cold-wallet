@@ -61,6 +61,12 @@ Prints the P2WPKH signing address to stdout. Back up the encrypted key file and 
 
 Fetches UTXOs for `--address` from mempool.space, selects coins, and writes the unsigned PSBT as base64 to stdout.
 
+Redirect stdout to a file to save the PSBT:
+
+```
+./dist/main-build.js --address tb1q... --to tb1q... --amount 10000 --network testnet > unsigned.psbt
+```
+
 If `--fee-rate` is omitted, the half-hour fee estimate is fetched automatically.
 
 ### Sign a PSBT (offline machine)
