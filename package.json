@@ -1,0 +1,33 @@
+{
+  "name": "btc-cold-wallet",
+  "version": "0.1.0",
+  "description": "CLI for creating signed Bitcoin transactions offline",
+  "type": "module",
+  "bin": {
+    "build-tx": "./dist/main-build.js",
+    "gen-key": "./dist/main-keygen.js",
+    "sign-tx": "./dist/main-sign.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "postbuild": "chmod +x dist/main-build.js dist/main-keygen.js dist/main-sign.js",
+    "build-tx": "tsx src/main-build.ts",
+    "gen-key": "tsx src/main-keygen.ts",
+    "sign-tx": "tsx src/main-sign.ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "bip38": "3.1.1",
+    "bitcoinjs-lib": "6.1.7",
+    "ecpair": "2.1.0",
+    "tiny-secp256k1": "2.2.4"
+  },
+  "devDependencies": {
+    "@types/bip38": "3.1.2",
+    "@types/node": "20.19.39",
+    "tsx": "4.21.0",
+    "typescript": "5.9.3",
+    "vitest": "4.1.4"
+  }
+}

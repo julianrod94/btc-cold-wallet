@@ -1,0 +1,6 @@
+export const MAX_FEE_RATE_SAT_PER_VBYTE = 1000;
+export const MAX_FEE_PERCENTAGE_OF_OUTPUTS = 50;
+export const MAX_DESTINATION_VALUE_SATOSHIS = 10_000_000_000;
+export const MAX_INPUTS = 100;
+export const MAX_OUTPUTS = 5;
+export const DUST_LIMIT_SATOSHIS = 294;
