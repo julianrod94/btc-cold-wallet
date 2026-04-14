@@ -1,0 +1,7 @@
+node_modules/
+dist/
+*.bip38
+*.psbt
+*.hex
+*.log
+.DS_Store
