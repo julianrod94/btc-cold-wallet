@@ -33,12 +33,22 @@ npm run build
 
 Binaries are in `dist/` and are executable after build (`postbuild` runs `chmod +x`).
 
+## Running the binaries
+
+After `npm run build`, invoke the entry points directly:
+
+```
+./dist/main-keygen.js ...
+./dist/main-build.js  ...
+./dist/main-sign.js   ...
+```
+
 ## Usage
 
 ### Generate a key (offline machine)
 
 ```
-gen-key --network <testnet|mainnet> --out <file.bip38>
+./dist/main-keygen.js --network <testnet|mainnet> --out <file.bip38>
 ```
 
 Prints the P2WPKH signing address to stdout. Back up the encrypted key file and remember the password — there is no recovery.
@@ -46,7 +56,7 @@ Prints the P2WPKH signing address to stdout. Back up the encrypted key file and 
 ### Build an unsigned PSBT (online machine)
 
 ```
-build-tx --address <signing_address> --to <destination> --amount <satoshis> --network <testnet|mainnet> [--fee-rate <sat/vb>]
+./dist/main-build.js --address <signing_address> --to <destination> --amount <satoshis> --network <testnet|mainnet> [--fee-rate <sat/vb>]
 ```
 
 Fetches UTXOs for `--address` from mempool.space, selects coins, and writes the unsigned PSBT as base64 to stdout.
@@ -56,13 +66,13 @@ If `--fee-rate` is omitted, the half-hour fee estimate is fetched automatically.
 ### Sign a PSBT (offline machine)
 
 ```
-sign-tx --key <file.bip38> --network <testnet|mainnet> --psbt <file>
+./dist/main-sign.js --key <file.bip38> --network <testnet|mainnet> --psbt <file>
 ```
 
 `--psbt` is optional. If omitted, the PSBT is read from stdin:
 
 ```
-cat unsigned.psbt | sign-tx --key wallet.bip38 --network testnet > signed.hex
+cat unsigned.psbt | ./dist/main-sign.js --key wallet.bip38 --network testnet > signed.hex
 ```
 
 The operator sees the full transaction summary before the password is asked. Typing anything other than `yes` aborts without decrypting the key.
@@ -77,16 +87,16 @@ curl -X POST https://mempool.space/testnet4/api/tx -H 'Content-Type: text/plain'
 
 ```bash
 # 1. Generate key (offline)
-gen-key --network testnet --out wallet.bip38
+./dist/main-keygen.js --network testnet --out wallet.bip38
 # → tb1q...  (signing address)
 
 # 2. Fund the signing address from a testnet faucet
 
 # 3. Build PSBT (online)
-build-tx --address tb1q... --to tb1q... --amount 10000 --network testnet > unsigned.psbt
+./dist/main-build.js --address tb1q... --to tb1q... --amount 10000 --network testnet > unsigned.psbt
 
 # 4. Sign (offline)
-sign-tx --key wallet.bip38 --network testnet --psbt unsigned.psbt > signed.hex
+./dist/main-sign.js --key wallet.bip38 --network testnet --psbt unsigned.psbt > signed.hex
 
 # 5. Broadcast (online)
 curl -X POST https://mempool.space/testnet4/api/tx -H 'Content-Type: text/plain' -d @signed.hex
